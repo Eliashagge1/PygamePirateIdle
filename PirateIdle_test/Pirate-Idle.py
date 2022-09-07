@@ -5,10 +5,7 @@ from FPSdef import create_fonts
 from FPSdef import render
 from FPSdef import display_fps
 
-
-
-
-sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdef.py")
+sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdev f.py")
 
 pygame.init()
 mixer.init()
@@ -34,7 +31,7 @@ window = pygame.display.set_mode((220, 330), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 
 #Background image
-background = pygame.image.load('PirateIdle/Design_Mk1.png').convert_alpha()
+background = pygame.image.load('Design_Mk1.png').convert_alpha()
 scaled_bg, bg_rect = transformScaleKeepRatio(background, window.get_size())
 
 #Loop 1
