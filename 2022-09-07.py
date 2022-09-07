@@ -8,9 +8,9 @@ mixer.init()
 def init_screen_and_clock():
     global screen, display, clock
     pygame.init()
-    WINDOW_SIZE = (1150, 640)
+    windowSize = (220, 330)
     pygame.display.set_caption('Game')
-    screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
+    screen = pygame.display.set_mode(windowSize, 0, 32)
     clock = pygame.time.Clock()
  
 #Fonts
@@ -59,15 +59,15 @@ clock = pygame.time.Clock()
 background = pygame.image.load('Design_Mk1.png').convert_alpha()
 scaled_bg, bg_rect = transformScaleKeepRatio(background, window.get_size())
 
-#Loop for resizing
-run = True
-while run == True:
+#Loop 1
+loop1 = True
+while loop1 == True:
     clock.tick(100)
     background #Reload Background
     display_fps()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            loop1 = False
 
         elif event.type == pygame.VIDEORESIZE:
             window = pygame.display.set_mode(event.size, pygame.RESIZABLE)
@@ -75,7 +75,7 @@ while run == True:
 
     clock.tick(144) #Fps limit
     pygame.display.flip() #Fps
-    window.fill((127, 127, 127)) #Background
+    window.fill((0, 0, 0)) #Background
     window.blit(scaled_bg, bg_rect) #Background
     pygame.display.flip() #Display update
 
