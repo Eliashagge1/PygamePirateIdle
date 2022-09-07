@@ -4,7 +4,44 @@ from pygame import mixer
 pygame.init()
 mixer.init()
 
+#FPS counter start
+def init_screen_and_clock():
+    global screen, display, clock
+    pygame.init()
+    WINDOW_SIZE = (1150, 640)
+    pygame.display.set_caption('Game')
+    screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
+    clock = pygame.time.Clock()
+ 
+#Fonts
+def create_fonts(font_sizes_list):
+    #Creates different fonts with one list
+    fonts = []
+    for size in font_sizes_list:
+        fonts.append(
+            pygame.font.SysFont("Arial", size))
+    return fonts
+ 
+#Render display_fps
+def render(fnt, what, color, where):
+    #Renders the fonts as passed from display_fps
+    text_to_show = fnt.render(what, 0, pygame.Color(color))
+    screen.blit(text_to_show, where)
+ 
+ #Displays FPS
+def display_fps():
+    #Data that will be rendered and blitted in _display
+    render(
+        fonts[0],
+        what=str(int(clock.get_fps())),
+        color="white",
+        where=(0, 0))
+ 
+#Init def (8) and creates fonst
+init_screen_and_clock()
+fonts = create_fonts([32, 16, 14, 8])
 
+#Scaling
 def transformScaleKeepRatio(image, size):
     iwidth, iheight = image.get_size()
     scale = min(size[0] / iwidth, size[1] / iheight)
@@ -14,16 +51,20 @@ def transformScaleKeepRatio(image, size):
     image_rect = scaled_image.get_rect(center = (size[0] // 2, size[1] // 2))
     return scaled_image, image_rect
 
-pygame.init()
+#Display size
 window = pygame.display.set_mode((220, 330), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 
+#Background image
 background = pygame.image.load('Design_Mk1.png').convert_alpha()
 scaled_bg, bg_rect = transformScaleKeepRatio(background, window.get_size())
 
+#Loop for resizing
 run = True
 while run == True:
     clock.tick(100)
+    screen.fill((0, 0, 0)) #Reload Background
+    display_fps()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -32,8 +73,10 @@ while run == True:
             window = pygame.display.set_mode(event.size, pygame.RESIZABLE)
             scaled_bg, bg_rect = transformScaleKeepRatio(background, window.get_size())
 
-    window.fill((127, 127, 127))
-    window.blit(scaled_bg, bg_rect)
-    pygame.display.flip()
+    clock.tick(144) #Fps limit
+    pygame.display.flip() #Fps
+    window.fill((127, 127, 127)) #Background
+    window.blit(scaled_bg, bg_rect) #Background
+    pygame.display.flip() #Display update
 
 pygame.quit()
