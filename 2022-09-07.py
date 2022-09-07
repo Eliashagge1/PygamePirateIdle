@@ -63,7 +63,7 @@ scaled_bg, bg_rect = transformScaleKeepRatio(background, window.get_size())
 run = True
 while run == True:
     clock.tick(100)
-    screen.fill((0, 0, 0)) #Reload Background
+    background #Reload Background
     display_fps()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
