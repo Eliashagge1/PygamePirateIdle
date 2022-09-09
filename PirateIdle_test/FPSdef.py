@@ -1,4 +1,5 @@
 import pygame, sys, time
+pygame.init()
 
 #Init def (8) and creates fonst
 
