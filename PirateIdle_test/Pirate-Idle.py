@@ -1,21 +1,14 @@
 import pygame, sys, time, math, FPSdef
 from pygame import mixer
-
-
-sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdev f.py")
-
-pygame.init()
-mixer.init()
-
-
-
-
 from FPSdef import init_screen_and_clock
 from FPSdef import create_fonts
 from FPSdef import render
 from FPSdef import display_fps
 
+sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdev f.py")
 
+pygame.init()
+mixer.init()
 
 
 #Init def (FPSdef.py) and creates fonst
