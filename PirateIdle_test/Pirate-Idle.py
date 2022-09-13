@@ -1,19 +1,14 @@
 import pygame, sys, time, math, FPSdef
 from pygame import mixer
-from FPSdef import init_screen_and_clock
-from FPSdef import create_fonts
-from FPSdef import render
-from FPSdef import display_fps
+from FPSdef import FPS
 
-sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdev f.py")
+sys.path.append("C:/Users/User/Desktop/PirateIdle_test/FPSdef.py")
 
 pygame.init()
 mixer.init()
 
-
-#Init def (FPSdef.py) and creates fonst
-init_screen_and_clock()
-fonts = create_fonts([32, 16, 14, 8])
+#init_screen_and_clock()
+#fonts = create_fonts([32, 16, 14, 8])
 
 
 #Scaling
