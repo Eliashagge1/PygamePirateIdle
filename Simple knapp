@@ -1,0 +1,54 @@
+import pygame, sys
+  
+pygame.init()
+  
+res = (660,330)
+screen = pygame.display.set_mode(res)
+color = (255,255,255)
+  
+# Ljusa färgen på knappen
+color_light = (170,170,170)
+  
+# Mörka färgen på knappen
+color_dark = (100,100,100)
+  
+#Widht
+width = screen.get_width()
+  
+#Height
+height = screen.get_height()
+  
+#Font
+smallfont = pygame.font.SysFont('Corbel',35)
+  
+# this font
+text = smallfont.render('quit' , True , color)
+  
+while True:
+      
+    for ev in pygame.event.get():
+          
+        if ev.type == pygame.QUIT:
+            pygame.quit()
+              
+        #checks if a mouse is clicked
+        if ev.type == pygame.MOUSEBUTTONDOWN:
+              
+            #Om musknappen trycks stängsspelet av
+            if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+                pygame.quit()
+    screen.fill((60,25,60))
+      
+    # stores the (x,y) coordinates into variable
+    mouse = pygame.mouse.get_pos()
+      
+    # Ändrar färgen på knappen
+    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+        pygame.draw.rect(screen,color_light,[width/2,height/2,140,40])
+          
+    else:
+        pygame.draw.rect(screen,color_dark,[width/2,height/2,140,40])
+      
+    
+    screen.blit(text , (width/2+50,height/2))
+    pygame.display.update()
