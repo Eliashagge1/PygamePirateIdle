@@ -1,4 +1,4 @@
-import pygame, sys, time
+import pygame, sys, time, pickle
 pygame.init()
 
 
@@ -52,3 +52,28 @@ def transformScaleKeepRatio(image, size):
     scaled_image = pygame.transform.smoothscale(image, new_size)
     image_rect = scaled_image.get_rect(center = (size[0] // 2, size[1] // 2))
     return scaled_image, image_rect
+
+
+#For the saving
+class MyClass():
+    def __init__(self, param):
+        self.param = param
+
+def save_object(obj):
+    try:
+        with open("savefiles/data.pickle", "wb") as f:
+            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception as ex:
+        print("Failure to save", ex)
+def save_saved(obj):
+    try:
+        with open("savefiles/saved.pickle", "wb") as f:
+            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception as ex:
+        print("Failure to save", ex)
+def load_object(filename):
+    try:
+        with open(filename, "rb") as f:
+            return pickle.load(f)
+    except Exception as ex:
+        print("Failure to save", ex)
