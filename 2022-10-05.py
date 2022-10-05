@@ -158,7 +158,7 @@ mixer.music.set_volume(musicVolume)
 mixer.music.play()
 mixer.music.unpause()
 
-buttonPress = mixer.Sound("sound/zapsplat_multimedia_button_click_fast_short_004_79288.mp3")
+buttonPress = mixer.Sound("sound/buttonPress.mp3")
 mixer.Sound.set_volume(buttonPress, SFXVolume)
 
 
