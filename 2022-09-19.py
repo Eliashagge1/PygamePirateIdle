@@ -137,9 +137,9 @@ scaled_ls2, ls2_rect = transformScaleKeepRatio(loadingScreen2, window.get_size()
 
 
 #Songs
-song1 = "sound/mixkit-flock-of-wild-geese-20.wav"
-song2 = "sound/mixkit-classic-alarm-995.wav"
-song3 = "sound/mixkit-small-group-cheer-and-applause-518.wav"
+song1 = "sound/song1.wav"
+song2 = "sound/song2.wav"
+song3 = "sound/song3.wav"
 
 
 #Playlist
