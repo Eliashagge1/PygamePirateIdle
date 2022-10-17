@@ -31,8 +31,8 @@ sails1 = 0
 sailsCost1 = 300
 sailsStandCost1 = 300
 sailsCostMulti1 = 1.5
-sailsMulti1 = 1.5
-maxSails1 = 5
+sailsMulti1 = 1.2
+maxSails1 = 10
 
 crew1 = 0
 crewCost1 = 20
@@ -40,14 +40,14 @@ crewStandCost1 = 20
 crewCostMulti1 = 1.1
 crewMulti1 = 1.1
 crewLifetime1 = 0
-maxCrew1 = 15
+maxCrew1 = 20
 
 canons1 = 0
 canonsCost1 = 50
 canonsStandCost1 = 50
 canonsCostMulti1 = 1.2
 canonsMulti1 = 1.25
-maxCanons1 = 15
+maxCanons1 = 20
 
 captain1 = 0
 captainEarn1 = 2500
@@ -58,7 +58,37 @@ musicVolume = standardVolume
 SFXVolume = standardVolume
 
 
+#For the saving
+class MyClass():
+    def __init__(self, param):
+        self.param = param
+def save_object(obj):
+    try:
+        with open("savefiles/data.pickle", "wb") as f:
+            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception as ex:
+        print("Failure to save", ex)
+def save_saved(obj):
+    try:
+        with open("savefiles/saved.pickle", "wb") as f:
+            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception as ex:
+        print("Failure to save", ex)
+def load_object(filename):
+    try:
+        with open(filename, "rb") as f:
+            return pickle.load(f)
+    except Exception as ex:
+        print("Failure to save", ex)
 
+
+#Income
+def incomeFunction():
+    return round(incomeStand * (crewMulti1 ** crew1) * (canonsMulti1 ** canons1) + captainEarn1 * captain1)
+
+#Timer speed
+def timerSpeedFunction():
+    return round(timerStand / (sailsMulti1 ** sails1))
 
 
 #Start loadingscreen
@@ -70,19 +100,10 @@ loadingScreenWait = round(time.time()+2)
 saved = load_object("savefiles/saved.pickle")
 if saved == 1:
     saveList = load_object("savefiles/data.pickle")
-    lastTimeDisplayed = saveList[0]
-    sails1 = saveList[1]
-    crew1 = saveList[2]
-    canons1 = saveList[3]
-    balance = saveList[4]
-    captain1 = saveList[5]
-    crewLifetime1 = saveList[6]
-    musicVolume = saveList[7]
-    SFXVolume = saveList[8]
-    setScreenSize = saveList[9]
+    locals().update(saveList)
     screen = setScreenSize
-    income = round(incomeStand * (crewMulti1 ** crew1) * (canonsMulti1 ** canons1) + captainEarn1 * captain1)
-    timerSpeed = round(timerStand / (sailsMulti1 ** sails1))
+    income = incomeFunction()
+    timerSpeed = timerSpeedFunction()
     timeNow = round(time.time())
     incomePerSec = round(100 * income/timerSpeed)/100
     if (timeNow - lastTimeDisplayed) <= 7200 and lastTimeDisplayed != 0:
@@ -90,7 +111,6 @@ if saved == 1:
     elif (timeNow - lastTimeDisplayed) > 7200 and lastTimeDisplayed != 0:
         balance = round(balance + (7200 * offlineDevaule * incomePerSec))
     print(saveList)
-    print(incomePerSec)
 
 
 #Create window
@@ -126,7 +146,6 @@ playlist = list()
 playlist.append(song3)
 playlist.append(song2)
 playlist.append(song1)
-print(playlist)
 
 
 #Sound
@@ -254,7 +273,7 @@ while loop1 == True:
                         crew1 = crew1 + 1
                         crewLifetime1 = crewLifetime1 + 1
                         crewCost1 = crewStandCost1 * (crewCostMulti1 ** crewLifetime1)
-                        income = round(incomeStand * (crewMulti1 ** crew1) * (canonsMulti1 ** canons1) + captainEarn1 * captain1)
+                        income = incomeFunction()
                         buttonPress.play()
                     elif crew1 == maxCrew1:
                         print("Golden button sound\n")
@@ -266,7 +285,7 @@ while loop1 == True:
                         balance = balance - round(sailsCost1)
                         sails1 = sails1 + 1
                         sailsCost1 = sailsStandCost1 * (sailsCostMulti1 ** sails1)
-                        timerSpeed = round(timerStand / (sailsMulti1 ** sails1))
+                        timerSpeed = timerSpeedFunction()
                         buttonPress.play()
                     elif sails1 == maxSails1:
                         print("Golden button sounds\n")
@@ -279,7 +298,6 @@ while loop1 == True:
                         crew1 = crew1 - 2
                         canons1 = canons1 + 1
                         canonsCost1 = canonsStandCost1 * (canonsCostMulti1 ** canons1)
-                        income = round(incomeStand * (crewMulti1 ** crew1) * (canonsMulti1 ** canons1) + captainEarn1 * captain1)
                         buttonPress.play()
                     elif canons1 == maxCanons1:
                         print("Golden button sound\n")
@@ -314,6 +332,8 @@ while loop1 == True:
                     crewLifetime1 = 0
                     musicVolume = standardVolume
                     SFXVolume = standardVolume
+                    sliderPos = standardVolume
+                    slider2Pos = standardVolume
                     setScreenSize = [220, 330]
                     buttonPress.play()
                     mixer.music.unpause()
@@ -323,6 +343,8 @@ while loop1 == True:
                 if settingsResetPosition[0] <= mouse[0] <= settingsResetPosition[0]+screen[0]*0.9727272727272727 and settingsResetPosition[1] <= mouse[1] <= settingsResetPosition[1]+screen[1]*0.1151515151515152:
                     musicVolume = standardVolume
                     SFXVolume = standardVolume
+                    sliderPos = standardVolume
+                    slider2Pos = standardVolume
                     setScreenSize = [220, 330]
 
 
@@ -349,8 +371,8 @@ while loop1 == True:
 
 
     #The timer that pays
-    income = round(incomeStand * (crewMulti1 ** crew1) * (canonsMulti1 ** canons1) + captainEarn1 * captain1)
-    timerSpeed = round(timerStand / (sailsMulti1 ** sails1))
+    income = incomeFunction()
+    timerSpeed = timerSpeedFunction()
     timeNow = round(time.time())
     incomePerSec = round(100 * income/timerSpeed)/100
     if timeNow % timerSpeed == 0 and timeNow != lastTimeDisplayed:
@@ -492,7 +514,7 @@ while loop1 == True:
 
 #Save data
 saved = 1
-saveList = [lastTimeDisplayed, sails1, crew1, canons1, balance, captain1, crewLifetime1, musicVolume, SFXVolume, setScreenSize]
+saveList = {"lastTimeDisplayed": lastTimeDisplayed, "sails1": sails1, "crew1": crew1, "canons1": canons1, "balance": balance, "captain1": captain1, "crewLifetime1": crewLifetime1, "musicVolume": musicVolume, "SFXVolume": SFXVolume, "setScreenSize": setScreenSize}
 save_object(saveList)
 save_saved(saved)
 
