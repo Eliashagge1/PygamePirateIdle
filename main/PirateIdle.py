@@ -1,8 +1,4 @@
 # Imports and initiations
-# import pygame
-# import sys
-# import time
-# import math
 import pickle
 import os
 from pygame import mixer
