@@ -13,7 +13,6 @@ mixer.init()
 
 # Init def (def1.py) and creates fonts
 init_screen_and_clock()
-fonts = create_fonts([32, 16, 14, 8])
 
 
 # Display size
@@ -72,14 +71,14 @@ def ship(x, y, z):
         mainDictionary[f] = {
             "sails"+str(x): 0,
             "sailsCost"+str(x): 300,
-            "sailsStandCost"+str(x): 300,
+            "sailsStandCost"+str(x): 300 * x,
             "sailsCostMulti"+str(x): 1.5,
             "sailsMulti"+str(x): 1.2,
             "maxSails"+str(x): 10,
 
             "crew"+str(x): 0,
             "crewCost"+str(x): 20,
-            "crewStandCost"+str(x): 20,
+            "crewStandCost"+str(x): 20 * x,
             "crewCostMulti"+str(x): 1.1,
             "crewMulti"+str(x): 1.1,
             "crewLifetime"+str(x): 0,
@@ -87,7 +86,7 @@ def ship(x, y, z):
 
             "canons"+str(x): 0,
             "canonsCost"+str(x): 50,
-            "canonsStandCost"+str(x): 50,
+            "canonsStandCost"+str(x): 50 * x,
             "canonsCostMulti"+str(x): 1.2,
             "canonsMulti"+str(x): 1.25,
             "maxCanons"+str(x): 20,
@@ -254,14 +253,16 @@ def incomeFunction():
     innerIncome = 0
     for i in mainDictionary:
         shipList.append(i)
-    for i in range(1, shipList.__len__()+1):
-        incomeList.append(
-            (mainDictionary["ship"+str(i)].get("crewMulti"+str(i)) **
-             mainDictionary["ship"+str(i)].get("crew"+str(i))) *
-            (mainDictionary["ship"+str(i)].get("canonsMulti"+str(i)) **
-             mainDictionary["ship"+str(i)].get("canons"+str(i))) +
-            mainDictionary["ship"+str(i)].get("captainEarn"+str(i)) *
-            mainDictionary["ship"+str(i)].get("captain"+str(i))
+    for i in range(1, 10):
+        if "ship"+str(i) in shipList:
+            incomeList.append(
+                (mainDictionary["ship"+str(i)].get("crewMulti"+str(i)) **
+                 mainDictionary["ship"+str(i)].get("crew"+str(i))) *
+                (mainDictionary["ship"+str(i)].get("canonsMulti"+str(i)) **
+                 mainDictionary["ship"+str(i)].get("canons"+str(i))) +
+                mainDictionary["ship"+str(i)].get("captainEarn"+str(i)) *
+                mainDictionary["ship"+str(i)].get("captain"+str(i)) *
+                (shipList.__len__()+1)
                           )
     for i in range(1, incomeList.__len__()+1):
         innerIncome = innerIncome + incomeList[i-1]
@@ -271,16 +272,22 @@ def incomeFunction():
 
 # Timer speed
 def timerSpeedFunction():
+    global timerStand
     shipList = []
-    timerList = []
+    timerList = [1]
     innerTimer = 0
     for i in mainDictionary:
         shipList.append(i)
-    for i in range(1, shipList.__len__()+1):
-        timerList.append(
-            (mainDictionary["ship"+str(i)].get("sailsMulti"+str(i)) **
-             mainDictionary["ship"+str(i)].get("sails"+str(i)))
+    for i in range(1, 10):
+        ship(i, "crew"+str(i), 0)
+        if ((mainDictionary["ship"+str(i)].get("sailsMulti"+str(i)) **
+             mainDictionary["ship"+str(i)].get("sails"+str(i)))) != 1:
+            timerList.append(
+                (mainDictionary["ship"+str(i)].get("sailsMulti"+str(i)) **
+                 mainDictionary["ship"+str(i)].get("sails"+str(i)))
                           )
+        else:
+            timerList.append(0)
     for i in range(1, timerList.__len__()+1):
         innerTimer = innerTimer + timerList[i-1]
     timerReturnSpeed = timerStand / innerTimer
@@ -381,7 +388,7 @@ screenDisplaceH = 0
 sliderPos = musicVolume
 slider2Pos = SFXVolume
 
-
+ship(1, "crew1", 0)
 wasd = 0
 # Loop 1
 loop1 = True
@@ -554,8 +561,8 @@ while loop1:
     timerSpeed = timerSpeedFunction()
     timeNow = round(time.time())
     incomePerSec = round(100 * income/timerSpeed)/100
-    if timeNow % timerSpeed == 0 and timeNow != lastTimeDisplayed:
-        balance = balance + income
+    if timeNow != lastTimeDisplayed:
+        balance = balance + incomePerSec
         print("Time right now: "+str(timeNow))
         lastTimeDisplayed = timeNow
         print("Balance: "+str(balance))
