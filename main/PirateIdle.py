@@ -597,10 +597,8 @@ while loop1:
             incomePerSecPosition = (screenDisplaceW + width*0.3590909090909091, screenDisplaceH + height*0.635)
             if 1000000 > incomePerSec >= 1000:
                 textIncomePerSec = mediumFont.render((str(round(incomePerSec/1000))+"K"), True, textColour)
-
             elif incomePerSec >= 1000000:
                 textIncomePerSec = mediumFont.render((str(round(incomePerSec/1000000))+"M"), True, textColour)
-                
             else:
                 textIncomePerSec = mediumFont.render((str(incomePerSec)), True, textColour)
             window.blit(textIncomePerSec, incomePerSecPosition)
@@ -608,7 +606,6 @@ while loop1:
             balanceStatsPosition = (screenDisplaceW + width*0.2181818181818182, screenDisplaceH + height*0.2995)
             if 1000000 > balance >= 1000:
                 textBalanceStats = mediumFont.render((str(round(balance/1000))+"K"), True, textColour)
-
             elif balance >= 1000000:
                 textBalanceStats = mediumFont.render((str(round(balance/1000000))+"M"), True, textColour)
 
