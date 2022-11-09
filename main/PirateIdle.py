@@ -71,14 +71,14 @@ def ship(x, y, z):
         mainDictionary[f] = {
             "sails"+str(x): 0,
             "sailsCost"+str(x): 300,
-            "sailsStandCost"+str(x): 300 * x,
+            "sailsStandCost"+str(x): 300 * 1.5 ** x,
             "sailsCostMulti"+str(x): 1.5,
             "sailsMulti"+str(x): 1.2,
             "maxSails"+str(x): 10,
 
             "crew"+str(x): 0,
             "crewCost"+str(x): 20,
-            "crewStandCost"+str(x): 20 * x,
+            "crewStandCost"+str(x): 20 * 1.5 ** x,
             "crewCostMulti"+str(x): 1.1,
             "crewMulti"+str(x): 1.1,
             "crewLifetime"+str(x): 0,
@@ -86,13 +86,13 @@ def ship(x, y, z):
 
             "canons"+str(x): 0,
             "canonsCost"+str(x): 50,
-            "canonsStandCost"+str(x): 50 * x,
+            "canonsStandCost"+str(x): 50 * 1.5 ** x,
             "canonsCostMulti"+str(x): 1.2,
             "canonsMulti"+str(x): 1.25,
             "maxCanons"+str(x): 20,
 
             "captain"+str(x): 0,
-            "captainEarn"+str(x): 2500,
+            "captainEarn"+str(x): 500,
             "captainCost"+str(x): 20000
         }
         globals().update(mainDictionary)
@@ -262,7 +262,7 @@ def incomeFunction():
                  mainDictionary["ship"+str(i)].get("canons"+str(i))) +
                 mainDictionary["ship"+str(i)].get("captainEarn"+str(i)) *
                 mainDictionary["ship"+str(i)].get("captain"+str(i)) *
-                (shipList.__len__()+1)
+                i
                           )
     for i in range(1, incomeList.__len__()+1):
         innerIncome = innerIncome + incomeList[i-1]
@@ -273,22 +273,18 @@ def incomeFunction():
 # Timer speed
 def timerSpeedFunction():
     global timerStand
-    shipList = []
     timerList = [1]
     innerTimer = 0
-    for i in mainDictionary:
-        shipList.append(i)
     for i in range(1, 10):
         ship(i, "crew"+str(i), 0)
-        if ((mainDictionary["ship"+str(i)].get("sailsMulti"+str(i)) **
-             mainDictionary["ship"+str(i)].get("sails"+str(i)))) != 1:
+        if (mainDictionary["ship"+str(i)].get("sails"+str(i))) != 0:
             timerList.append(
                 (mainDictionary["ship"+str(i)].get("sailsMulti"+str(i)) **
                  mainDictionary["ship"+str(i)].get("sails"+str(i)))
                           )
         else:
             timerList.append(0)
-    for i in range(1, timerList.__len__()+1):
+    for i in range(0, timerList.__len__()):
         innerTimer = innerTimer + timerList[i-1]
     timerReturnSpeed = timerStand / innerTimer
     return round(timerReturnSpeed)
@@ -642,7 +638,7 @@ while loop1:
         elif balance >= 1000000:
             textBalance = smallFont.render((str(round(balance/1000000))+"M"), True, textColour)
         else:
-            textBalance = smallFont.render((str(balance)), True, textColour)
+            textBalance = smallFont.render((str(round(balance))), True, textColour)
         window.blit(textBalance, balancePosition)
 
     pygame.display.flip()
