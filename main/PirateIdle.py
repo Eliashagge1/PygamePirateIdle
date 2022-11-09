@@ -28,6 +28,7 @@ incomeStand = 100
 timerStand = 60
 offlineDevaule = 1/3
 
+# Sails
 sails1 = 0
 sailsCost1 = 300
 sailsStandCost1 = 300
@@ -35,6 +36,7 @@ sailsCostMulti1 = 1.5
 sailsMulti1 = 1.2
 maxSails1 = 10
 
+# Crew
 crew1 = 0
 crewCost1 = 20
 crewStandCost1 = 20
@@ -43,6 +45,7 @@ crewMulti1 = 1.1
 crewLifetime1 = 0
 maxCrew1 = 20
 
+# Canons
 canons1 = 0
 canonsCost1 = 50
 canonsStandCost1 = 50
@@ -50,16 +53,45 @@ canonsCostMulti1 = 1.2
 canonsMulti1 = 1.25
 maxCanons1 = 20
 
+# Captain
 captain1 = 0
 captainEarn1 = 2500
 captainCost1 = 20000
 
+# Volume
 standardVolume = 0.2
 musicVolume = standardVolume
 SFXVolume = standardVolume
 
-
+# Dictionary
 mainDictionary = {}
+
+# Songs
+song1 = "sound/song1.wav"
+song2 = "sound/song2.wav"
+song3 = "sound/song3.wav"
+
+
+# Playlist
+playlist = list()
+playlist.append(song3)
+playlist.append(song2)
+playlist.append(song1)
+
+# Sound
+mixer.music.load(playlist.pop())
+mixer.music.queue(playlist.pop())
+mixer.music.set_endevent(pygame.USEREVENT)
+mixer.music.set_volume(musicVolume)
+mixer.music.play()
+mixer.music.unpause()
+
+# Text colour
+textColour = (50, 50, 50)
+
+# Volume slider
+sliderPos = musicVolume
+slider2Pos = SFXVolume
 
 
 def ship(x, y, z):
@@ -335,26 +367,8 @@ loadingScreen2 = pygame.image.load('pictures/loading screen 2.png').convert_alph
 scaled_ls2, ls2_rect = transformScaleKeepRatio(loadingScreen2, window.get_size())
 
 
-# Songs
-song1 = "sound/song1.wav"
-song2 = "sound/song2.wav"
-song3 = "sound/song3.wav"
 
 
-# Playlist
-playlist = list()
-playlist.append(song3)
-playlist.append(song2)
-playlist.append(song1)
-
-
-# Sound
-mixer.music.load(playlist.pop())
-mixer.music.queue(playlist.pop())
-mixer.music.set_endevent(pygame.USEREVENT)
-mixer.music.set_volume(musicVolume)
-mixer.music.play()
-mixer.music.unpause()
 
 buttonPress = mixer.Sound("sound/buttonPress.mp3")
 mixer.Sound.set_volume(buttonPress, SFXVolume)
@@ -366,10 +380,6 @@ icon = pygame.image.load("pictures/IJ.png")
 pygame.display.set_icon(icon)
 
 
-# Text colour
-textColour = (50, 50, 50)
-
-
 if saved == 1:
     height = screen[1]
     width = screen[0]
@@ -379,10 +389,6 @@ else:
 screenDisplaceW = 0
 screenDisplaceH = 0
 
-
-# Volume slider
-sliderPos = musicVolume
-slider2Pos = SFXVolume
 
 ship(1, "crew1", 0)
 wasd = 0
@@ -591,8 +597,10 @@ while loop1:
             incomePerSecPosition = (screenDisplaceW + width*0.3590909090909091, screenDisplaceH + height*0.635)
             if 1000000 > incomePerSec >= 1000:
                 textIncomePerSec = mediumFont.render((str(round(incomePerSec/1000))+"K"), True, textColour)
+
             elif incomePerSec >= 1000000:
                 textIncomePerSec = mediumFont.render((str(round(incomePerSec/1000000))+"M"), True, textColour)
+                
             else:
                 textIncomePerSec = mediumFont.render((str(incomePerSec)), True, textColour)
             window.blit(textIncomePerSec, incomePerSecPosition)
@@ -600,8 +608,10 @@ while loop1:
             balanceStatsPosition = (screenDisplaceW + width*0.2181818181818182, screenDisplaceH + height*0.2995)
             if 1000000 > balance >= 1000:
                 textBalanceStats = mediumFont.render((str(round(balance/1000))+"K"), True, textColour)
+
             elif balance >= 1000000:
                 textBalanceStats = mediumFont.render((str(round(balance/1000000))+"M"), True, textColour)
+
             else:
                 textBalanceStats = mediumFont.render((str(balance)), True, textColour)
             window.blit(textBalanceStats, balanceStatsPosition)
@@ -635,8 +645,10 @@ while loop1:
 
         if 1000000 > balance >= 1000:
             textBalance = smallFont.render((str(round(balance/1000))+"K"), True, textColour)
+
         elif balance >= 1000000:
             textBalance = smallFont.render((str(round(balance/1000000))+"M"), True, textColour)
+
         else:
             textBalance = smallFont.render((str(round(balance))), True, textColour)
         window.blit(textBalance, balancePosition)
