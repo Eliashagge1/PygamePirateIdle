@@ -29,16 +29,6 @@ def render(fnt, what, color, where):
     screen.blit(text_to_show, where)
 
 
-# Displays FPS
-def display_fps():
-    # Data that will be rendered and blitted in _display
-    render(
-        fonts[32],
-        what=str(int(clock.get_fps())),
-        color="white",
-        where=(0, 0))
-
-
 # Init def (8) and creates fonts
 init_screen_and_clock()
 fonts = create_fonts([32, 16, 14, 11, 8])
