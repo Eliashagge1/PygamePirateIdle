@@ -4,6 +4,10 @@ import os
 from pygame import mixer
 from def1 import *
 
+startTime = round(time.time())
+timeStartSec = 0
+timeStartMin = 0
+
 direct1 = os.getcwd()
 sys.path.append(str(direct1)+"/def1.py")
 
@@ -565,7 +569,11 @@ while loop1:
     incomePerSec = round(100 * income/timerSpeed)/100
     if timeNow != lastTimeDisplayed:
         balance = balance + incomePerSec
-        print("Time right now: "+str(timeNow))
+        if timeStartSec % 60 == 0:
+            timeStartSec = 0
+            timeStartMin = timeStartMin + 1
+        timeStartSec = timeStartSec + 1
+        print("Time since start: "+str(timeStartMin-1)+":"+str(timeStartSec-1))
         lastTimeDisplayed = timeNow
         print("Balance: "+str(balance))
         print("Income per second: "+str(incomePerSec)+"\n")
